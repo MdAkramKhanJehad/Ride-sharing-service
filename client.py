@@ -1,4 +1,4 @@
-import requests
+import requests,json
 import time
 from threading import Timer
 import socketio
@@ -6,10 +6,9 @@ import eventlet, random
 import string
 import string_utils
 
-url = "http://localhost:8000/"
 eventlet.monkey_patch()
 sio = socketio.Client()
-sio.connect('http://localhost:8000', namespaces=['/communication'])
+sio.connect('http://localhost:6000', namespaces=['/communication'])
 
 
 
@@ -32,7 +31,7 @@ def message(data):
     print("\n\n****Got a Car:*****")
     print('Rider:',data[0],', Driver:', data[1],', Total Fare:',data[2],'\n\n')
     d = {"driver": data[1], "rating": str(random.randint(2, 5))}
-    r = requests.post(url + "/rating", json=d)
+    r = requests.post("http://localhost:10000/rating", json=d)
 
 
 
@@ -42,11 +41,11 @@ while True:
     
     rider = {'Rider': random.choice(riders), 'source': get_random_point(), 'destination': get_random_point()}
     print('Rider ',rider['Rider'],' wanna go from ', rider['source'],' to ', rider['destination'])
-    r = requests.post(url + "/rider", json=rider)
+    r = requests.post("http://localhost:10000/rider", json=rider)
 
     driver = {'Driver': random.choice(drivers), 'carNumber': str(random.randint(100001, 999999)), "location": get_random_point()}
     print('Driver ', driver['Driver'], ' is located at ', driver["location"], ', car number is ', driver['carNumber'])
-    r = requests.post(url + "/driver", json=driver)
+    r = requests.post("http://localhost:10000/driver", json=driver)
     
     time.sleep(1.5)
     i += 1

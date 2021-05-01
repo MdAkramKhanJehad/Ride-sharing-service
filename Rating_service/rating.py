@@ -25,7 +25,7 @@ def insert_into_database(driver,rating):
     print("Records inserted........")
 
 
-    print('\n****************ALL RATINGs********************')
+    # print('\n****************ALL RATINGs********************')
     
     ##find latest rating
     # driv = Rating.objects(driver=driver).first()
@@ -34,14 +34,14 @@ def insert_into_database(driver,rating):
     # else:
     #    print(driv.driver, ' ----- ', driv.rating)
     
-    find all ratings
-    for rate in Rating.objects:
-        print(rate.driver,' -> ',rate.rating)
+    # find all ratings
+    # for rate in Rating.objects:
+    #     print(rate.driver,' -> ',rate.rating)
     
     #delete all the ratings
-    for rate in Rating.objects:
-        rate.delete()
-        print('*********deleted**********')
+    # for rate in Rating.objects:
+    #     rate.delete()
+    #     print('*********deleted**********')
     
     print('\n')
 
@@ -50,7 +50,7 @@ def insert_into_database(driver,rating):
 @app.route('/rating', methods=['POST'])
 def rating():
     data = request.json
-    data = json.loads(data)
+    data = data
     insert_into_database(data['driver'], data['rating'])
 
     return data

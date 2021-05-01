@@ -29,7 +29,6 @@ riders = []
 
 
 
-@socketio.on('message')
 def get_a_car(rider):
     selected_driver = None
     selected_dist = 999999
@@ -37,13 +36,15 @@ def get_a_car(rider):
     for driver in drivers:
         point1 = str(driver['location']).split(",")
         point2 = str(rider['source']).split(",")
+        point3 = str(rider['destination']).split(",")
+        
         distance = pow(pow(int(point1[0]) - int(point2[0]), 2) + pow(int(point1[1]) - int(point2[1]), 2), 0.5)
+        total_distance = pow(pow(int(point3[0]) - int(point2[0]), 2) + pow(int(point3[1]) - int(point2[1]), 2), 0.5)
         
         if distance < selected_dist:
             selected_driver = driver
             selected_dist = distance
-
-    return selected_driver, selected_dist
+    return selected_driver, total_distance
 
 
 @app.route('/driver', methods=['POST'])
@@ -60,22 +61,15 @@ def rider():
     return data
 
 
-@app.route('/rating', methods=['POST'])
-def rating():
-    data = request.json
-    print("Rating:", data)
-    r = requests.post("http://localhost:7000/rating", json=json.dumps(data))
-    # insert_into_database(data['driver'], data['rating']) 
-
-    return "rating completed"
-
 
 
 def find_a_driver():
     print(time.strftime("%I:%M:%S %p"))
     if len(drivers) > 0 and len(riders) > 0:
         driver, distance = get_a_car(riders[0])
-        socketio.emit('message', [riders[0]['Rider'], driver['Driver'], round(distance * 2)], namespace='/communication')
+        pair = { 'driver': driver['Driver'], 'rider': riders[0]['Rider'], 'fare': round(distance * 2)}
+
+        r = requests.post("http://localhost:6000/newPair", json=json.dumps(pair))
         riders.pop(0)
 
    
