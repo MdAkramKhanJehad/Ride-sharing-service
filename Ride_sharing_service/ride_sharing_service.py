@@ -15,13 +15,13 @@ scheduler = APScheduler()
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'its secret'
-app.config['MONGODB_SETTINGS'] = {
-    'db': 'ride_sharing_app',
-    'host': 'localhost',
-    'port': 27017
-}
-db = MongoEngine()
-db.init_app(app)
+# app.config['MONGODB_SETTINGS'] = {
+#     'db': 'ride_sharing_app',
+#     'host': 'localhost',
+#     'port': 27017
+# }
+# db = MongoEngine()
+# db.init_app(app)
 socketio = SocketIO(app)
 
 drivers = []
@@ -69,7 +69,7 @@ def find_a_driver():
         driver, distance = get_a_car(riders[0])
         pair = { 'driver': driver['Driver'], 'rider': riders[0]['Rider'], 'fare': round(distance * 2)}
 
-        r = requests.post("http://localhost:6000/newPair", json=json.dumps(pair))
+        r = requests.post("http://127.0.0.1:6000/newPair", json=json.dumps(pair))
         riders.pop(0)
 
    

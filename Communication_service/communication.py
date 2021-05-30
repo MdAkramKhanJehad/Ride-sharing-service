@@ -1,7 +1,9 @@
 from flask import Flask,request,g
 from flask_socketio import SocketIO,emit
-import json
+import json, eventlet
 
+
+eventlet.monkey_patch()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'its secret'
 socketio = SocketIO(app)

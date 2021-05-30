@@ -7,7 +7,7 @@ app.config['SECRET_KEY'] = 'its secret'
 
 app.config['MONGODB_SETTINGS'] = {
     'db': 'driver_ratings',
-    'host': 'localhost',
+    'host': '127.0.0.1',
     'port': 27017
 }
 
