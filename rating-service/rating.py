@@ -43,7 +43,6 @@ def insert_into_database(driver,rating):
     # for rate in Rating.objects:
     #     rate.delete()
     #     print('*********deleted**********')
-    
     print('\n')
 
 

@@ -14,8 +14,8 @@ print("Communication connceted")
 
 riders = ["Akter", "Alam", "Rafin", "Kuddus", "Sakib", "Sahir", "Samnan", "Rizan", "Marzan", "Arifa",
                "Labiba", "Rahman", "Kalam"]
-drivers = ["Samim", "Jabir", "Rafik", "Matin", "Omar", "Faruk", "Kashem", "Tomal", "Mahmud", "Siddik",
-              "Didar", "Anis", "Liton"]
+drivers = ["Samim", "Jabir", "Rafik", "Matin", "Omar", "Farhan", "Kashem", "Tomal", "Mahmud", "Siddik",
+              "Didar", "Anik", "Liton", "Sakif", "Navid","Ismail"]
 
 
 
