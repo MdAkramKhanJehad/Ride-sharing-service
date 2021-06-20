@@ -7,7 +7,7 @@ app.config['SECRET_KEY'] = 'its secret'
 
 app.config['MONGODB_SETTINGS'] = {
     'db': 'driver_ratings',
-    'host': '127.0.0.1',
+    'host': 'db',
     'port': 27017
 }
 
@@ -21,7 +21,8 @@ class Rating(db.Document):
 
 
 def insert_into_database(driver,rating):
-    Rating(driver=driver, rating=rating).save()
+    ratings = Rating(driver=driver, rating=rating)
+    ratings.save()      
     print("Records inserted........")
 
 
@@ -59,4 +60,4 @@ def rating():
 
 
 if __name__ == '__main__':
-	app.run(port=7000)
+	app.run(host='0.0.0.0',port=8080)

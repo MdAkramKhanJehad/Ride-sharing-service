@@ -14,7 +14,6 @@ socketio = SocketIO(app)
 def rider():
     data = request.json
     x = json.loads(data)
-    print(x)
     communicate(x)
     return data
 
@@ -27,7 +26,7 @@ def communicate(data):
 
 
 if __name__ == '__main__':
-    socketio.run(app,port=6000)
+    socketio.run(app, host='0.0.0.0',port=8080)
 
 
 

@@ -8,6 +8,6 @@ RUN pip install -r /Communication_service/requirements.txt
 
 ADD . /Communication_service
 
-EXPOSE 6000
+#EXPOSE 6000
 
 CMD ["python3","-u","/Communication_service/communication.py"]

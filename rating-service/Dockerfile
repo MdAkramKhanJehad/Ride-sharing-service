@@ -8,6 +8,6 @@ RUN pip install -r /Rating_service/requirements.txt
 
 ADD . /Rating_service
 
-EXPOSE 7000
+#EXPOSE 7000
 
 CMD ["python3","-u","/Rating_service/rating.py"]

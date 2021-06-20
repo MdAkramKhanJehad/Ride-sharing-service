@@ -8,6 +8,6 @@ RUN pip install -r /Ride_sharing_service/requirements.txt
 
 ADD . /Ride_sharing_service
 
-EXPOSE 8000
+#EXPOSE 8000
 
 CMD ["python3","-u","/Ride_sharing_service/ride_sharing_service.py"]
