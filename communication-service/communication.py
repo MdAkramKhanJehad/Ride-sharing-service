@@ -14,6 +14,7 @@ socketio = SocketIO(app)
 def rider():
     data = request.json
     x = json.loads(data)
+    print('INSIDE COMMUNICATION: {}'.format(x))
     communicate(x)
     return data
 
@@ -21,12 +22,12 @@ def rider():
 
 @socketio.on('message')
 def communicate(data):
-	data = [data['rider'], data['driver'], data['fare']]   
+	data = [data['rider'], data['driver'], data['fare']]
 	socketio.emit('message', data, namespace='/communication')
 
 
 if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0',port=8080)
+    socketio.run(app,host='0.0.0.0',port=8080)
 
 
 

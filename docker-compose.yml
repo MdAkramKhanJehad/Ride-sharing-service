@@ -1,23 +1,61 @@
 version: '3'
 
+networks:
+  amrnet:
+    ipam:
+      config: 
+        - subnet: 10.100.0.0/24
+
+
 services: 
-  communication-service:
+  communication-service-dhaka:
     build: ./communication-service/
-    ports: 
-      - 8080:8080
     restart: always
-  
+    networks: 
+      amrnet:
+        ipv4_address: 10.100.0.30
+
+  communication-service-chittagong:
+    build: ./communication-service/
+    restart: always
+    networks: 
+      amrnet:
+        ipv4_address: 10.100.0.32
+
+
   rating-service:
     build: ./rating-service/
     restart: always
     depends_on: 
       - db
+    networks: 
+      amrnet:
+        ipv4_address: 10.100.0.10
 
-  ride-sharing-service:
+
+  ride-sharing-service-dhaka:
     build: ./ride-sharing-service/
     restart: always
     depends_on: 
-      - communication-service
+      - communication-service-dhaka
+    environment: 
+      - RIDER_LOCATION=dhaka
+    networks: 
+      amrnet: 
+        ipv4_address: 10.100.0.5    
+
+
+  ride-sharing-service-chittagong:
+    build: ./ride-sharing-service/
+    restart: always
+    depends_on: 
+      - communication-service-chittagong
+    environment: 
+      - RIDER_LOCATION=chittagong
+    networks: 
+      amrnet: 
+        ipv4_address: 10.100.0.7
+
 
   db:
     image: mongo
@@ -25,14 +63,35 @@ services:
       - mongodb_rating_data:/data/db
     ports: 
       - 27018:27017
+    networks:
+      amrnet:
+        ipv4_address: 10.100.0.2
 
-  nginx:
+
+  nginx-dhaka:
     build: ./nginx/
-    ports: 
-      - 10000:80
     depends_on: 
-      - ride-sharing-service
-      - rating-service  
+      - ride-sharing-service-dhaka
+      - rating-service
+    environment: 
+      - API=ride-sharing-service-dhaka
+    command: /bin/sh -c "envsubst < /etc/nginx/conf.d/nginx.conf.template > /etc/nginx/conf.d/nginx.conf && nginx -g 'daemon off;'"      
+    networks: 
+      amrnet:
+        ipv4_address: 10.100.0.20
+
+
+  nginx-chittagong:
+    build: ./nginx/
+    depends_on: 
+      - ride-sharing-service-chittagong
+      - rating-service
+    environment: 
+      - API=ride-sharing-service-chittagong
+    command: /bin/sh -c "envsubst < /etc/nginx/conf.d/nginx.conf.template > /etc/nginx/conf.d/nginx.conf && nginx -g 'daemon off;'"          
+    networks: 
+      amrnet:
+        ipv4_address: 10.100.0.22
 
 volumes:
   mongodb_rating_data:

@@ -8,14 +8,14 @@ import string_utils
 
 eventlet.monkey_patch()
 sio = socketio.Client()
-sio.connect('http://localhost:8080', namespaces=['/communication'])
+sio.connect('http://communication.chittagong.com:8080', namespaces=['/communication'])
 print("Communication connceted")
 
 
-riders = ["Akter", "Alam", "Rafin", "Kuddus", "Sakib", "Sahir", "Samnan", "Rizan", "Marzan", "Arifa",
-               "Labiba", "Rahman", "Kalam"]
-drivers = ["Samim", "Jabir", "Rafik", "Matin", "Omar", "Farhan", "Kashem", "Tomal", "Mahmud", "Siddik",
-              "Didar", "Anik", "Liton", "Sakif", "Navid","Ismail"]
+riders = ["Naim Akhter", "Nur Alam", "Rafin Mahmum", "abul Kuddus", "Sakib ahmed", "Sahir bin", "Samnan mahi", "Rizan hoque", "Marzan farhin", "Arifa khanam",
+               "Labiba bashar", "atiqur Rahman", "Kalam uddin"]
+drivers = ["Samim islam", "Jabir Alam", "Rafik Alam", "Matin Alam", "Omar Alam", "Farhan Alam", "Kashem Alam", "Tomal Alam", "Mahmud ahmed", "Siddik ahmed",
+              "Didar Alam", "Anik ahmed", "Liton ahmed", "Sakif ahmed", "Navid ahmed","Ismail ahmed"]
 
 
 
@@ -30,8 +30,8 @@ def get_random_point():
 def message(data):
     print("\n\n****Got a Car:*****")
     print('Rider:',data[0],', Driver:', data[1],', Total Fare:',data[2],'\n\n')
-    d = {"driver": data[1], "rating": str(random.randint(2, 5))}
-    r = requests.post("http://localhost:10000/rating", json=d)
+    d = {"driver": data[1], "rating": str(random.randint(2, 7))}
+    r = requests.post("http://communication.chittagong.com:8080/rating", json=d)
 
 
 
@@ -41,11 +41,11 @@ while True:
     
     rider = {'Rider': random.choice(riders), 'source': get_random_point(), 'destination': get_random_point()}
     print('Rider ',rider['Rider'],' wanna go from ', rider['source'],' to ', rider['destination'])
-    r = requests.post("http://localhost:10000/ridesharingservice/rider", json=rider)
+    r = requests.post("http://chittagong.server.com:80/ridesharingservice/rider", json=rider)
 
     driver = {'Driver': random.choice(drivers), 'carNumber': str(random.randint(100001, 999999)), "location": get_random_point()}
     print('Driver ', driver['Driver'], ' is located at ', driver["location"], ', car number is ', driver['carNumber'])
-    r = requests.post("http://localhost:10000/ridesharingservice/driver", json=driver)
+    r = requests.post("http://chittagong.server.com:80/ridesharingservice/driver", json=driver)
     
     time.sleep(1.5)
     i += 1

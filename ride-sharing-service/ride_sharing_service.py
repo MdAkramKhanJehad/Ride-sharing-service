@@ -6,8 +6,10 @@ from threading import Timer
 from flask_apscheduler import APScheduler
 import eventlet
 import json
+import os
 
 
+rider_location = os.environ.get('RIDER_LOCATION')
 
 eventlet.monkey_patch()
 scheduler = APScheduler()
@@ -60,8 +62,8 @@ def find_a_driver():
     if len(drivers) > 0 and len(riders) > 0:
         driver, distance = get_a_car(riders[0])
         pair = { 'driver': driver['Driver'], 'rider': riders[0]['Rider'], 'fare': round(distance * 2)}
-
-        r = requests.post("http://communication-service:8080/newPair", json=json.dumps(pair))
+        link = "http://communication-service-"+rider_location+":8080/newPair"
+        r = requests.post(link, json=json.dumps(pair))
         riders.pop(0)
 
    
